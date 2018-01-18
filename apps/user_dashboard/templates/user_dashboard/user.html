@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>User</title>
+	{% load static %}
+<!-- The line above tells Django to be ready to listen for static files -->
+	<link rel="stylesheet" href="{% static 'user_dashboard/css/user.css' %}" media="screen" title="no title"  charset="utf-8">
+<!-- Put the static files in the static folder inside your app.  Django collects files within all static folders and puts them within a single folder -->
+<!-- BOOT STRAP -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container-fluid">
+		<!-- Navigation bar -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="/">FriendMatch</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+				<div class="navbar-nav">
+					<a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a> 
+				</div>
+				<div class="navbar-nav">
+					<a class="nav-item nav-link" href="/users/{{request.session.user}}">Profile</a> 
+				</div>
+				{% if not request.session.user %}
+				<a href="/gosignin" class="signin">Sign In</a>
+				{% endif %}
+				{% if request.session.user %}
+				<a href="/logout" class="logout">Log Out</a>
+				{% endif %}
+			</div>
+		</nav>
+		<!-- Body of page starts, carousel on top. -->
+		<main>
+			<!-- boostrap Carousel -->
+			<div id="myCarousel" class="carousel slide container" data-interval="false" data-ride="carousel" style="width: 200px; margin: 0 auto">
+				<ol class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+					<li data-target="#myCarousel" data-slide-to="2"></li>
+				</ol>
+				<div class="carousel-inner">
+					<!-- If the prof_pics assets are NONE, then display the default prof pic provided by the site. -->
+					{% if not prof_pics %} 
+					<div class="carousel-item active">
+						<img class="d-block w-100" src="{% static 'user_dashboard/img/default_prof_pic.png' %}" alt="image slide" style=" z-index: 2;">
+						<!-- opaque banner for uploading profpic. -->
+						<div class="update_pic_banner" style="position: relative; top: -80px; z-index: 3;">
+							Update Profile Picture
+						</div>
+					</div>
+					{% endif %}
+
+					{% for pic in prof_pics %}
+					<div class="carousel-item active">
+						<img class="d-block w-100" src="{% static '{{ pic.upload }}' %}" alt="image slide">
+					</div>
+					{% endfor %}
+				</div>
+				<a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>
+			<!-- user accordion -->
+			<div id="userAccordion" data-children=".item">
+				<div class="item">
+					<a data-toggle="collapse" data-parent="#userAccordion" href="#userAccordion1" role="button" aria-expanded="true" aria-controls="exampleAccordion1">
+						{{user.first_name}} {{user.last_name}}
+					</a>
+					<!-- upload form for prof pic -->
+					<div id="userAccordion1" class="collapse show" role="tabpanel">
+						<p class="mb-3">
+							(click picture to upload new photo.)
+						<form id="pic_form" method="post" action="/users/{{ user.id }}/upload_file" enctype="multipart/form-data">
+							{% csrf_token %}
+							<input id="pic_input" name="pic_upload" type="file" style="display: none" />
+						</form>
+						</p>
+						<p class="mb-3">
+							Registered at: {{user.created_at}}
+						</p>
+						<p class="mb-3">
+							User ID: {{user.id}}
+						</p>
+						<p class="mb-3">
+							Email address: {{user.email}}
+						</p>
+					</div>
+				</div>
+			</div>
+			<!-- Post a message to the wall area -->
+			<fieldset>
+			<legend>Post a message</legend>
+			<form  class ="message_form" action="{{user.id}}/post_message" method="POST">
+				{% csrf_token %}
+				<div class="form-group">
+					<textarea placeholder="Write a message" class="form-control" name="message"></textarea>
+				</div>
+				<input class="btn btn-primary" type="submit" name="post_message">
+			</form>
+			</fieldset>
+
+			<!-- All the posts -->
+			{% for message in themessages %}
+			<div id="messageAccordion" data-children=".item">
+				<div class="item">
+					<a href="/users/{{message.user.id}}">{{message.user.first_name}} {{message.user.last_name}}</a>
+					<p data-toggle="collapse" data-parent="#messageAccordion" href="#messageAccordion_{{ message.id }}" role="button" aria-expanded="true" aria-controls="messageAccordion_{{ message.id }}">
+						{{ message.message }}
+					</p>
+					<div id="messageAccordion_{{ message.id }}" class="collapse show" role="tabpanel">
+						<small>{{ message.created_at }}</small>
+					</div>
+				</div>
+			</div>
+
+			{% for comment in comments %}
+			{% if message.id == comment.message_id %}
+			<div id="commentAccordion" data-children=".item">
+				<div class="item">
+					<a href="">{{ comment.user.first_name }} {{comment.user.last_name}}</a>
+					<p data-toggle="collapse" data-parent="#commentAccordion" href="#commentAccordion_{{ comment.id }}" role="button" aria-expanded="true" aria-controls="commentAccordion_{{ comment.id }}">
+						{{ comment.comment }}
+					</p>
+					<div id="commentAccordion_{{ comment.id }}"" class="collapse show" role="tabpanel">
+						<small>{{ comment.created_at }}</small>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+			{% endfor %}
+
+			<div>
+				<!-- COMMENT POSTING FORM -->
+				<form action="{{ user.id }}/comments" class="comment_form" method="POST">
+					{% csrf_token %}
+					<div class="form-group">
+						<textarea placeholder="Comment here" name="comment"></textarea>
+					</div>
+					<input type="hidden" name="message_id" value="{{message.id}}">
+					<input class="btn btn-primary" type="submit" name="post_comment">
+				</form>
+			</div>
+			{% endfor %}			
+		</main>
+	</div>
+	<!-- bootstrap resources -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+	<script>
+		$(".update_pic_banner").on("click", function() {
+			$("#pic_input").trigger("click");	
+		});
+
+		document.getElementById("pic_input").onchange = function() {
+			document.getElementById("pic_form").submit();
+		};
+	</script>
+</body>
+</html>

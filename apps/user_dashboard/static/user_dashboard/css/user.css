@@ -1,0 +1,13 @@
+.update_pic_banner{
+	background-color: black;
+	color: white;
+	opacity: 0;
+	padding: 1em;
+}
+
+.update_pic_banner:hover{
+	opacity: 0.5;
+    -webkit-transition: opacity .25s ease-in-out .0s;
+    transition: opacity .25s ease-in-out .0s;
+}
+

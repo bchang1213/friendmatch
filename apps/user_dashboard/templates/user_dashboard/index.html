@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Home Page</title>
+	{% load static %}
+<!-- The line above tells Django to be ready to listen for static files -->
+	<link rel="stylesheet" href="{% static 'user_dashboard/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
+<!-- Put the static files in the static folder inside your app.  Django collects files within all static folders and puts them within a single folder --> 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container-fluid">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="#">FriendMatch</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+				<div class="navbar-nav">
+					<a class="nav-item nav-link active" href="/gosignin">Sign In <span class="sr-only">(current)</span></a>
+				</div>
+				<div class="navbar-nav">
+					<a class="nav-item nav-link" href="/goregister">Register</a> 
+				</div>
+			</div>
+		</nav>
+
+		<div class="jumbotron jumbotron-fluid">
+			<div class="container">
+				<h1 class="display-4">Welcome to FriendMatch!</h1>
+				<p class="lead">Matchmake your single friends or find attractive singles and ask their friends for an introductory first chat!</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col d-flex justify-content-start">
+				<div class="card text-white bg-primary" style="max-width: 18rem;">
+					<div class="card-header">Manage Users</div>
+					<div class="card-body">
+						<p class="card-text">Using this application, you'll learn how to add, remove, and edit users for the application.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col d-flex justify-content-center">
+				<div class="card text-white bg-primary" style="max-width: 18rem;">
+					<div class="card-header">Leave Messages</div>
+					<div class="card-body">
+						<p class="card-text">Users will be able to leave a message to another user using the application.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col d-flex justify-content-end">
+				<div class="card text-white bg-primary" style="max-width: 18rem;">
+					<div class="card-header">Edit User Information</div>
+					<div class="card-body">
+						<p class="card-text">Admins will be able to edit another user's information (email address, first name, last name, etc.)</p>
+					</div>
+				</div>
+			</div>		
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+</body>
+</html>

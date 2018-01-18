@@ -1,0 +1,14 @@
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+a.signin{
+	position: absolute;
+	right:0;
+	top:0;
+}
+
+.banner h4, p{
+	text-align: center;
+}

@@ -1,0 +1,46 @@
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+label{
+	display: block;
+	width:280px;
+	text-align: right;
+}
+
+fieldset, form {
+	display: inline-block;
+}
+
+li.error{
+	color: red ;
+}
+
+li.success{
+	color:green;
+}
+
+a.register{
+	display: block;
+}
+
+a.signinhere{
+	display: block;
+}
+
+header{
+	border-bottom: 2px solid black;
+}
+
+header h4, a{
+	display: inline;
+}
+
+a.signin{
+	margin-left: 330px;
+}
+
+a.returntodash{
+	display: block;
+}

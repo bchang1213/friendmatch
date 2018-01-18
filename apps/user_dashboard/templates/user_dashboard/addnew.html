@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Add New User</title>
+	{% load static %}
+<!-- The line above tells Django to be ready to listen for static files -->
+	<link rel="stylesheet" href="{% static 'user_dashboard/css/signin.css' %}" media="screen" title="no title"  charset="utf-8">
+<!-- Put the static files in the static folder inside your app.  Django collects files within all static folders and puts them within a single folder -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container-fluid">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="/">FriendMatch</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+				<div class="navbar-nav">
+					<a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a> 
+				</div>
+				{% if not request.session.user %}
+				<a href="/gosignin" class="signin">Sign In</a>
+				{% endif %}
+				{% if request.session.user %}
+				<a href="/logout" class="logout">Log Out</a>
+				{% endif %}
+			</div>
+		</nav>
+
+		{% if messages %}
+		<ul class="messages">
+		{% for message in messages %}
+			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+		{% endfor %}
+		</ul>
+		{% endif %}
+
+		<a class="d-block" href="/dashboard"><button type="button" class="btn btn-primary">Back to Dashboard</button></a>
+
+		<form action="/register" method="POST">
+			<h5>Register</h5>
+			{% csrf_token %}
+			<div class="form-group">
+				<label>First Name</label>
+				<input type="text" class="form-control" placeholder="Enter First Name" name="first_name">
+			</div>
+			<div class="form-group">
+				<label>Last Name</label>
+				<input type="text" class="form-control" placeholder="Enter Last Name" name="last_name">
+			</div>
+			<div class="form-group">
+				<label>Email address</label>
+				<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email">
+				<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+			</div>
+			<div class="form-group">
+				<label>Password</label>
+				<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
+			</div>
+			<div class="form-group">
+				<label>Confirm Password</label>
+				<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Confirm Password" name="passconf">
+			</div>
+			<input type="hidden" name="userlevel" value="normal">
+			<button type="submit" class="btn btn-primary" value="Register">Register</button>
+		</form>
+		<a href="/gosignin" class="signinhere">Already have an account? Login</a>
+
+	<!-- 		<form action="/register" method="POST">
+				{% csrf_token %}
+				<fieldset>
+					<legend>Register</legend>
+					<label>First Name:
+						<input type="text" name="first_name">
+					</label>
+					<label>Last Name:
+						<input type="text" name="last_name">
+					</label>
+					<label>Email:
+						<input type="email" name="email">
+					</label>
+					<label>Password:
+						<input type="password" name="password">
+					</label>
+					<label>Confirm Password:
+						<input type="password" name="passconf">
+					</label>
+					<label>
+						<input type="submit" value="Register">
+					</label>
+				</fieldset>
+			</form> -->
+	</div>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+</body>
+</html>

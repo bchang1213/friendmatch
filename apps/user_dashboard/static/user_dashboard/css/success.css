@@ -1,0 +1,26 @@
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+header{
+	border-bottom: 2px solid black;
+}
+
+a.logout{
+	margin-left: 100px;
+}
+
+header h4, a{
+	display: inline;
+}
+
+a.signin{
+	margin-left: 330px;
+}
+
+.top h5,.top a{
+	display: inline-block;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}

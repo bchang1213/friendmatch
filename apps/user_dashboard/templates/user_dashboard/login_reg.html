@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Registration Form</title>
+	<style media='screen'>
+	label{
+		display: block;
+		width:280px;
+		text-align: right;
+	}
+	fieldset, form {
+		display: inline-block;
+	}
+	li.error{
+		color: red ;
+	}
+	li.success{
+		color:green;
+	}
+</style>
+</head>
+<body>
+	{% if messages %}
+	<ul class="messages">
+	{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+	{% endfor %}
+	</ul>
+	{% endif %}
+
+	<form action="/register" method="POST">
+		{% csrf_token %}
+		<fieldset>
+			<legend>Register</legend>
+			<label>First Name:
+				<input type="text" name="first_name">
+			</label>
+			<label>Last Name:
+				<input type="text" name="last_name">
+			</label>
+			<label>Email:
+				<input type="text" name="email">
+			</label>
+<!-- 			<label>Birthday:
+				<input type="date" name="dob">
+			</label> -->
+			<label>Password:
+				<input type="text" name="password">
+			</label>
+			<label>Confirm Password:
+				<input type="text" name="passconf">
+			</label>
+			<label>
+				<input type="submit" values="Register">
+			</label>
+		</fieldset>
+	</form>
+	<form action="/login" method="POST">
+		{% csrf_token %}
+		<fieldset>
+			<legend>Login</legend>
+			<label>Email:
+				<input type="text" name="email">
+			</label>
+			<label>Password:
+				<input type="text" name="password">
+			</label>
+			<label>
+				<input type="submit" values="Login">
+			</label>
+		</fieldset>
+	</form>
+</body>
+</html>
