@@ -1,2 +1,4 @@
 #ignore the .env file, which details the s3bucket access key info.
 .env
+*.pyc
+venv/
